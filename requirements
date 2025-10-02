@@ -1,0 +1,154 @@
+
+---
+
+Obiettivo: Sviluppare un’API RESTful e una Web App che la consumi.
+
+1) Database: Progettare un database SQL per un’applicazione che permetta la gestione di iscrizioni digitali a corsi e workshop. Il database deve includere le seguenti tabelle con i rispettivi campi:
+
+a) corsi: Questa tabella rappresenta i corsi disponibili
+
+corso_id: INT, chiave primaria, univoca, autoincrementante, identifica univocamente ogni corso
+
+titolo: VARCHAR(50), titolo del corso (es. "Introduzione a Next.js")
+
+data_ora_inizio: DATETIME, data e ora di inizio del corso
+
+luogo: VARCHAR(100), luogo in cui si svolgerà il corso
+
+disponibilità: INT, rappresenta il numero di posti disponibili per l’iscrizione
+
+
+b) iscrizioni: Questa tabella contiene le iscrizioni confermate
+
+iscrizione_id: INT, chiave primaria, univoca, autoincrementante, identifica univocamente ogni iscrizione
+
+corso_id: INT, chiave esterna riferita al corso
+
+partecipante_nome: VARCHAR(30), rappresenta il nome del partecipante
+
+partecipante_cognome: VARCHAR(30), rappresenta il cognome del partecipante
+
+partecipante_email: VARCHAR(50), rappresenta l’indirizzo e-mail del partecipante
+
+data_ora_iscrizione: DATETIME, rappresenta la data e l’ora in cui è stata registrata l’iscrizione
+
+
+Output:
+a) Modello ER (2 punti): Il modello ER deve illustrare le entità, le loro proprietà, le relazioni tra di loro e le cardinalità di queste relazioni;
+b) Script SQL (3 punti): Gli script SQL di creazione delle tabelle nel database secondo la struttura definita sopra.
+
+
+---
+
+2) Endpoints: Creare gli endpoint RESTful per le seguenti operazioni:
+
+a) Recuperare tutti i corsi disponibili
+
+Endpoint: GET /courses
+
+Descrizione: Restituisce un elenco di tutti i corsi per i quali ci si può iscrivere
+
+Request: Eventuali parametri di ricerca nella query string dell’URL
+
+Response: Un array di oggetti, ognuno rappresentante un corso
+
+
+b) Recuperare tutte le iscrizioni effettuate
+
+Endpoint: GET /enrollments
+
+Descrizione: Restituisce un elenco di tutte le iscrizioni effettuate, filtrabile per corso
+
+Request: Filtro per corso ed eventuali altri filtri nella query string dell’URL
+
+Response: Un array di oggetti, ognuno rappresentante un’iscrizione
+
+
+
+
+
+
+
+---
+
+c) Creare una nuova iscrizione
+
+Endpoint: POST /enrollments
+
+Descrizione: Crea un’iscrizione con i campi corso_id, partecipante_nome, partecipante_cognome e partecipante_email passati, riducendo la disponibilità residua del corso
+
+Request: I dettagli dell’iscrizione da creare nel body della request
+
+Response: Un oggetto che rappresenta l’iscrizione appena creata
+
+
+Output:
+a) Servizio API (8 punti): Un servizio API che implementi tutti gli endpoint sopra descritti, eseguendo l’operazione corrispondente sul database e restituendo una risposta appropriata;
+b) Documentazione con Swagger UI (3 punti): Implementare Swagger UI per la documentazione dell’API, definendo correttamente la configurazione in modo da ottenere un file JSON che contenga le specifiche del servizio e dei suoi endpoint secondo lo standard OpenAPI.
+
+
+---
+
+3) Interfaccia utente: Realizzare un’interfaccia utente che permetta agli operatori di gestire le iscrizioni in modo efficiente. Le schermate da creare sono le seguenti:
+
+a) Home: La pagina iniziale mostra un elenco di tutti i corsi disponibili eventualmente con dei filtri di ricerca. Ogni elemento dell’elenco fornisce i dettagli del corso e un pulsante "Iscrizioni" che mostra le iscrizioni effettuate;
+
+b) Elenco iscrizioni effettuate: Questa sezione permette di visualizzare l’elenco delle iscrizioni effettuate con il nome, il cognome e l’indirizzo e-mail dei partecipanti. L’elenco può essere:
+
+1. Non filtrato per corso;
+
+
+2. Filtrabile per corso, es. tramite selezione corso in Home (+3 punti);
+
+
+
+c) Crea iscrizione: Questa sezione permette, per uno specifico corso, di registrare un’iscrizione inserendo i dati del partecipante (nome, cognome e indirizzo e-mail). La data e l’ora della registrazione sono generate automaticamente al salvataggio.
+
+Output:
+a) Web app (5-8 punti): Un’applicazione web completa che implementi tutte le funzionalità sopra descritte, con un design intuitivo e user-friendly;
+b) Integrazione con il servizio API (4 punti): La web app deve comunicare correttamente con il servizio API precedentemente creato, inviando richieste e gestendo le risposte in modo appropriato, ad es. mostrando all’utente messaggi di conferma e di errore comprensibili.
+
+
+---
+
+c) Creare una nuova iscrizione
+
+Endpoint: POST /enrollments
+
+Descrizione: Crea un’iscrizione con i campi corso_id, partecipante_nome, partecipante_cognome e partecipante_email passati, riducendo la disponibilità residua del corso
+
+Request: I dettagli dell’iscrizione da creare nel body della request
+
+Response: Un oggetto che rappresenta l’iscrizione appena creata
+
+
+Output:
+a) Servizio API (8 punti): Un servizio API che implementi tutti gli endpoint sopra descritti, eseguendo l’operazione corrispondente sul database e restituendo una risposta appropriata;
+b) Documentazione con Swagger UI (3 punti): Implementare Swagger UI per la documentazione dell’API, definendo correttamente la configurazione in modo da ottenere un file JSON che contenga le specifiche del servizio e dei suoi endpoint seguendo lo standard OpenAPI.
+
+
+---
+
+3) Interfaccia utente: Realizzare un’interfaccia utente che permetta agli operatori di gestire le iscrizioni in modo efficiente. Le schermate da creare sono le seguenti:
+
+a) Home: La pagina iniziale mostra un elenco di tutti i corsi disponibili eventualmente con dei filtri di ricerca. Ogni elemento dell’elenco fornisce i dettagli del corso e un pulsante "Iscrizioni" che mostra le iscrizioni effettuate;
+
+b) Elenco iscrizioni effettuate: Questa sezione permette di visualizzare l’elenco delle iscrizioni effettuate con il nome, il cognome e l’indirizzo e-mail dei partecipanti. L’elenco può essere:
+
+1. Non filtrato per corso;
+
+
+2. Filtrabile per corso, es. tramite selezione corso in Home (+3 punti);
+
+
+
+c) Crea iscrizione: Questa sezione permette, per uno specifico corso, di registrare un’iscrizione inserendo i dati del partecipante (nome, cognome e indirizzo e-mail). La data e l’ora della registrazione sono generate automaticamente al salvataggio.
+
+Output:
+a) Web app (5-8 punti): Un’applicazione web completa che implementi tutte le funzionalità sopra descritte, con un design intuitivo e user-friendly;
+b) Integrazione con il servizio API (4 punti): La web app deve comunicare correttamente con il servizio API precedentemente creato, inviando richieste e gestendo le risposte in modo appropriato, ad es. mostrando all’utente messaggi di conferma e di errore comprensibili.
+
+
+---
+
+
