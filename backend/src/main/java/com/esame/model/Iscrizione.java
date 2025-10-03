@@ -2,6 +2,7 @@ package com.esame.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDateTime;
 
 /**
@@ -21,7 +22,7 @@ public class Iscrizione {
     private Long iscrizioneId;
     
     @NotNull(message = "Course ID is required / L'ID del corso è obbligatorio")
-    @Column(name = "corso_id", nullable = false)
+    @Column(name = "corso_id", nullable = false, insertable = false, updatable = false)
     private Long corsoId;
     
     @NotBlank(message = "Participant first name is required / Il nome del partecipante è obbligatorio")
@@ -44,7 +45,8 @@ public class Iscrizione {
     private LocalDateTime dataOraIscrizione;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "corso_id", insertable = false, updatable = false)
+    @JoinColumn(name = "corso_id", referencedColumnName = "corso_id")
+    @JsonIgnore
     private Corso corso;
     
     // Default constructor / Costruttore di default
@@ -55,6 +57,16 @@ public class Iscrizione {
     // Constructor with parameters / Costruttore con parametri
     public Iscrizione(Long corsoId, String partecipanteNome, String partecipanteCognome, String partecipanteEmail) {
         this.corsoId = corsoId;
+        this.partecipanteNome = partecipanteNome;
+        this.partecipanteCognome = partecipanteCognome;
+        this.partecipanteEmail = partecipanteEmail;
+        this.dataOraIscrizione = LocalDateTime.now();
+    }
+    
+    // Constructor with Corso object / Costruttore con oggetto Corso
+    public Iscrizione(Corso corso, String partecipanteNome, String partecipanteCognome, String partecipanteEmail) {
+        this.corso = corso;
+        this.corsoId = corso.getCorsoId();
         this.partecipanteNome = partecipanteNome;
         this.partecipanteCognome = partecipanteCognome;
         this.partecipanteEmail = partecipanteEmail;

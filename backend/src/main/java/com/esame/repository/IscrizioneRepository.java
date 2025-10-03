@@ -78,4 +78,85 @@ public interface IscrizioneRepository extends JpaRepository<Iscrizione, Long> {
      */
     @Query("SELECT COUNT(i) > 0 FROM Iscrizione i WHERE i.corsoId = :corsoId AND i.partecipanteEmail = :email")
     boolean existsByCorsoIdAndPartecipanteEmail(@Param("corsoId") Long corsoId, @Param("email") String email);
+    
+    /**
+     * Find enrollments by participant name containing
+     * Trova iscrizioni per nome partecipante contenente
+     * 
+     * @param nome Participant name to search for / Nome partecipante da cercare
+     * @return List of enrollments matching the criteria / Lista di iscrizioni che corrispondono ai criteri
+     */
+    @Query("SELECT i FROM Iscrizione i WHERE LOWER(i.partecipanteNome) LIKE LOWER(CONCAT('%', :nome, '%'))")
+    List<Iscrizione> findByPartecipanteNomeContainingIgnoreCase(@Param("nome") String nome);
+    
+    /**
+     * Find enrollments by participant surname containing
+     * Trova iscrizioni per cognome partecipante contenente
+     * 
+     * @param cognome Participant surname to search for / Cognome partecipante da cercare
+     * @return List of enrollments matching the criteria / Lista di iscrizioni che corrispondono ai criteri
+     */
+    @Query("SELECT i FROM Iscrizione i WHERE LOWER(i.partecipanteCognome) LIKE LOWER(CONCAT('%', :cognome, '%'))")
+    List<Iscrizione> findByPartecipanteCognomeContainingIgnoreCase(@Param("cognome") String cognome);
+    
+    /**
+     * Find enrollments by participant email containing
+     * Trova iscrizioni per email partecipante contenente
+     * 
+     * @param email Participant email to search for / Email partecipante da cercare
+     * @return List of enrollments matching the criteria / Lista di iscrizioni che corrispondono ai criteri
+     */
+    @Query("SELECT i FROM Iscrizione i WHERE LOWER(i.partecipanteEmail) LIKE LOWER(CONCAT('%', :email, '%'))")
+    List<Iscrizione> findByPartecipanteEmailContainingIgnoreCase(@Param("email") String email);
+    
+    /**
+     * Find enrollments created between dates
+     * Trova iscrizioni create tra date
+     * 
+     * @param dataInizio Start date / Data inizio
+     * @param dataFine End date / Data fine
+     * @return List of enrollments created between dates / Lista di iscrizioni create tra le date
+     */
+    @Query("SELECT i FROM Iscrizione i WHERE i.dataOraIscrizione BETWEEN :dataInizio AND :dataFine")
+    List<Iscrizione> findByDataOraIscrizioneBetween(@Param("dataInizio") LocalDateTime dataInizio, @Param("dataFine") LocalDateTime dataFine);
+    
+    /**
+     * Find recent enrollments (last 7 days)
+     * Trova iscrizioni recenti (ultimi 7 giorni)
+     * 
+     * @param dataInizio Start date for recent enrollments / Data inizio per iscrizioni recenti
+     * @return List of recent enrollments / Lista di iscrizioni recenti
+     */
+    @Query("SELECT i FROM Iscrizione i WHERE i.dataOraIscrizione >= :dataInizio ORDER BY i.dataOraIscrizione DESC")
+    List<Iscrizione> findRecentEnrollments(@Param("dataInizio") LocalDateTime dataInizio);
+    
+    /**
+     * Count enrollments by participant email
+     * Conta iscrizioni per email partecipante
+     * 
+     * @param email Participant email / Email partecipante
+     * @return Number of enrollments / Numero di iscrizioni
+     */
+    @Query("SELECT COUNT(i) FROM Iscrizione i WHERE i.partecipanteEmail = :email")
+    Long countByPartecipanteEmail(@Param("email") String email);
+    
+    /**
+     * Find enrollments by course and participant email
+     * Trova iscrizioni per corso e email partecipante
+     * 
+     * @param corsoId Course ID / ID del corso
+     * @param email Participant email / Email partecipante
+     * @return List of enrollments / Lista di iscrizioni
+     */
+    List<Iscrizione> findByCorsoIdAndPartecipanteEmail(Long corsoId, String email);
+    
+    /**
+     * Find enrollments by participant name and surname
+     * Trova iscrizioni per nome e cognome partecipante
+     * 
+     * @param nome Participant first name / Nome partecipante
+     * @param cognome Participant last name / Cognome partecipante
+     * @return List of enrollments / Lista di iscrizioni
+     */
+    List<Iscrizione> findByPartecipanteNomeAndPartecipanteCognome(String nome, String cognome);
 }

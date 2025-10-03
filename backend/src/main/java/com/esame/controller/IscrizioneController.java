@@ -28,7 +28,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/enrollments")
 @Tag(name = "Enrollment Management", description = "API for managing course enrollments / API per la gestione delle iscrizioni ai corsi")
-@CrossOrigin(origins = "http://localhost:5173") // React Vite default port / Porta di default React Vite
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000", "http://127.0.0.1:5173"}) // React Vite default port / Porta di default React Vite
 public class IscrizioneController {
     
     @Autowired
@@ -117,13 +117,19 @@ public class IscrizioneController {
             @Valid @RequestBody Iscrizione iscrizione) {
         
         try {
+            // Get course ID from the iscrizione object / Ottieni ID corso dall'oggetto iscrizione
+            Long corsoId = iscrizione.getCorsoId();
+            
             // Check if course exists / Controlla se il corso esiste
-            Optional<Corso> corsoOpt = corsoRepository.findById(iscrizione.getCorsoId());
+            Optional<Corso> corsoOpt = corsoRepository.findById(corsoId);
             if (corsoOpt.isEmpty()) {
                 return ResponseEntity.notFound().build();
             }
             
             Corso corso = corsoOpt.get();
+            
+            // Set the course relationship / Imposta la relazione del corso
+            iscrizione.setCorso(corso);
             
             // Check if course has availability / Controlla se il corso ha disponibilità
             if (corso.getDisponibilita() <= 0) {
@@ -133,7 +139,7 @@ public class IscrizioneController {
             
             // Check if participant is already enrolled / Controlla se il partecipante è già iscritto
             if (iscrizioneRepository.existsByCorsoIdAndPartecipanteEmail(
-                iscrizione.getCorsoId(), iscrizione.getPartecipanteEmail())) {
+                corsoId, iscrizione.getPartecipanteEmail())) {
                 return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body("Participant already enrolled in this course / Partecipante già iscritto a questo corso");
             }

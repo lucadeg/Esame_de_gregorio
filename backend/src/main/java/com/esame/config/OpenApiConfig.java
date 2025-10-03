@@ -14,8 +14,8 @@ import java.util.List;
  * OpenAPI Configuration
  * Configurazione OpenAPI
  * 
- * Configuration for Swagger UI documentation
- * Configurazione per documentazione Swagger UI
+ * Configures Swagger UI and OpenAPI documentation
+ * Configura Swagger UI e documentazione OpenAPI
  */
 @Configuration
 public class OpenApiConfig {
@@ -25,22 +25,22 @@ public class OpenApiConfig {
         return new OpenAPI()
                 .info(new Info()
                         .title("Course Management API")
-                        .description("RESTful API for managing course enrollments and registrations / API RESTful per la gestione di iscrizioni e registrazioni ai corsi")
+                        .description("RESTful API for Course Management System / API RESTful per Sistema di Gestione Corsi")
                         .version("1.0.0")
                         .contact(new Contact()
                                 .name("Course Management Team")
                                 .email("support@coursemanagement.com")
-                                .url("https://github.com/lucadeg/Esame_de_gregorio"))
+                                .url("https://coursemanagement.com"))
                         .license(new License()
                                 .name("MIT License")
                                 .url("https://opensource.org/licenses/MIT")))
                 .servers(List.of(
                         new Server()
                                 .url("http://localhost:8080")
-                                .description("Development server / Server di sviluppo"),
+                                .description("Development Server / Server di Sviluppo"),
                         new Server()
                                 .url("https://api.coursemanagement.com")
-                                .description("Production server / Server di produzione")
+                                .description("Production Server / Server di Produzione")
                 ));
     }
 }

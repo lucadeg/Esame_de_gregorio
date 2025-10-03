@@ -1,176 +1,234 @@
-# Course Management System / Sistema di Gestione Corsi
+# 🎓 Course Management System
 
-## Project Overview / Panoramica Progetto
+**Sistema completo di gestione corsi e iscrizioni** con API RESTful e frontend React moderno.
 
-**Timestamp**: 2025-10-02 10:11:35
+## 🚀 Quick Start
 
-A complete course management system with RESTful API and React frontend, built with modern technologies and Docker containerization.
+### Prerequisiti
+- **Java 17+** - Backend Spring Boot
+- **Node.js 18+** - Frontend React
+- **Maven 3.9+** - Build tool Java
 
-Sistema completo di gestione corsi con API RESTful e frontend React, costruito con tecnologie moderne e containerizzazione Docker.
+### 🏃‍♂️ Avvio Rapido
 
-## Technology Stack / Stack Tecnologico
+#### 1. Database H2 (Raccomandato per Sviluppo)
 
-- **Backend**: Java 17, Spring Boot 3.2.0, Hibernate, PostgreSQL
-- **Frontend**: React 18, Vite, Tailwind CSS
-- **Database**: PostgreSQL 15
-- **Containerization**: Docker, Docker Compose
-- **Documentation**: Swagger UI / OpenAPI 3.0
-- **Build Tools**: Maven, Vite
+```powershell
+# Avvia Backend
+.\scripts\start\start-backend.ps1
 
-## Project Structure / Struttura Progetto
-
-```
-├── backend/                 # Spring Boot API
-│   ├── src/main/java/      # Java source code
-│   ├── src/main/resources/ # Configuration files
-│   └── Dockerfile          # Backend container
-├── frontend/               # React application
-│   ├── src/               # React source code
-│   ├── public/            # Static assets
-│   └── Dockerfile         # Frontend container
-├── database/              # Database scripts
-│   └── schema.sql        # Database schema
-└── docker-compose.yml    # Multi-container setup
+# Avvia Frontend (in un altro terminale)
+.\scripts\start\start-frontend.ps1
 ```
 
-## Features / Funzionalità
+#### 2. Database PostgreSQL (Produzione)
 
-### Database (5 points / 5 punti)
-- ✅ **ER Model**: Complete entity relationship model
-- ✅ **SQL Scripts**: Database creation and sample data
-- ✅ **Triggers**: Automatic availability updates
+```powershell
+# Configura PostgreSQL
+$env:DB_PASSWORD = "your_password"
+.\scripts\setup\setup-local-postgres.ps1
 
-### API Endpoints (11 points / 11 punti)
-- ✅ **GET /courses**: Retrieve all courses with filters
-- ✅ **GET /enrollments**: Retrieve enrollments with course filter
-- ✅ **POST /enrollments**: Create new enrollment
-- ✅ **Swagger UI**: Complete API documentation
-
-### Frontend (9-12 points / 9-12 punti)
-- ✅ **Home Page**: Course listing with filters
-- ✅ **Enrollments**: View all enrollments with course filtering
-- ✅ **Create Enrollment**: Form for new registrations
-- ✅ **Responsive Design**: Mobile-friendly interface
-
-## Quick Start / Avvio Rapido
-
-### Prerequisites / Prerequisiti
-- Docker and Docker Compose
-- Java 17+ (for local development)
-- Node.js 18+ (for local development)
-
-### Using Docker / Usando Docker
-
-1. **Clone repository / Clona repository**
-```bash
-git clone https://github.com/lucadeg/Esame_de_gregorio.git
-cd Esame_de_gregorio
+# Avvia Backend con PostgreSQL
+$env:DB_PASSWORD = "your_password"
+.\scripts\start\start-backend.ps1
 ```
 
-2. **Start all services / Avvia tutti i servizi**
-```bash
-docker-compose up -d
+## 🌐 Accesso Sistema
+
+| Servizio | URL | Descrizione |
+|----------|-----|-------------|
+| **Frontend** | http://localhost:5173 | Interfaccia utente React |
+| **Backend API** | http://localhost:8080 | API RESTful |
+| **Swagger UI** | http://localhost:8080/swagger-ui.html | Documentazione API |
+| **Health Check** | http://localhost:8080/actuator/health | Monitoraggio sistema |
+| **H2 Console** | http://localhost:8080/h2-console | Database H2 (se utilizzato) |
+
+## 🏗️ Architettura
+
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Frontend      │    │   Backend       │    │   Database      │
+│   React 18      │◄──►│   Spring Boot   │◄──►│   H2/PostgreSQL │
+│   Bootstrap 5   │    │   Java 17       │    │   JPA/Hibernate │
+│   React Query   │    │   REST API      │    │   SQL Scripts   │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
 ```
 
-3. **Access applications / Accedi alle applicazioni**
-- Frontend: http://localhost:5173
-- Backend API: http://localhost:8080/api
-- Swagger UI: http://localhost:8080/swagger-ui.html
-- Database: localhost:5432
+## 🎯 Funzionalità Principali
 
-### Local Development / Sviluppo Locale
+### 📚 Gestione Corsi
+- ✅ **CRUD Completo** - Creazione, lettura, aggiornamento, eliminazione
+- ✅ **Ricerca Avanzata** - Filtri per titolo, luogo, docente, materia, date, durata
+- ✅ **Pagine Dettaglio** - Informazioni complete per ogni corso
+- ✅ **Gestione Disponibilità** - Controllo posti disponibili
 
-1. **Start database / Avvia database**
-```bash
-docker-compose up postgres -d
+### 👥 Gestione Iscrizioni
+- ✅ **Iscrizione Corsi** - Processo completo di iscrizione
+- ✅ **Visualizzazione Iscrizioni** - Lista con filtri e ricerca
+- ✅ **Stati Iscrizione** - Attivo, completato, cancellato
+- ✅ **Informazioni Partecipanti** - Dati completi studenti
+
+### 🎨 Interfaccia Utente
+- ✅ **Design Responsive** - Bootstrap 5 per tutti i dispositivi
+- ✅ **3D Backgrounds** - Three.js per effetti visivi
+- ✅ **Animazioni** - Transizioni fluide e moderne
+- ✅ **Navigation** - Menu intuitivo e breadcrumb
+
+## 🔌 API Endpoints
+
+### 📚 Courses
+```http
+GET    /courses              # Lista corsi con filtri
+GET    /courses/{id}         # Dettaglio corso
+POST   /courses              # Crea corso
+PUT    /courses/{id}         # Aggiorna corso
+DELETE /courses/{id}         # Elimina corso
 ```
 
-2. **Backend development / Sviluppo backend**
+### 👥 Enrollments
+```http
+GET    /enrollments          # Lista iscrizioni
+GET    /enrollments/{id}     # Dettaglio iscrizione
+POST   /enrollments          # Crea iscrizione
+PUT    /enrollments/{id}     # Aggiorna iscrizione
+DELETE /enrollments/{id}     # Elimina iscrizione
+```
+
+## 🛠️ Tecnologie
+
+### Backend
+- **Spring Boot 3.2.0** - Framework Java
+- **Java 17** - Linguaggio di programmazione
+- **Spring Data JPA** - ORM e database
+- **Hibernate** - Persistence layer
+- **Swagger/OpenAPI** - Documentazione API
+- **Spring Actuator** - Monitoraggio
+
+### Frontend
+- **React 18** - UI Framework
+- **Bootstrap 5** - CSS Framework
+- **React Query** - Data fetching
+- **React Router** - Navigazione
+- **Three.js** - Grafica 3D
+- **Vite** - Build tool
+
+### Database
+- **H2 Database** - Sviluppo (in-memory)
+- **PostgreSQL** - Produzione
+- **JPA/Hibernate** - ORM
+- **SQL Scripts** - Schema database
+
+## 🧪 Testing
+
+### Test E2E con Playwright
+
+```powershell
+# Installa dipendenze test
+npm install
+npx playwright install
+
+# Esegui tutti i test
+.\scripts\test\run-tests.ps1
+
+# Test specifici
+npx playwright test tests/database.spec.js
+npx playwright test tests/api-endpoints.spec.js
+npx playwright test tests/frontend-ui.spec.js
+npx playwright test tests/integration.spec.js
+
+# Test con interfaccia
+npx playwright test --ui
+```
+
+### Copertura Test
+
+- ✅ **Database Schema** - Validazione struttura
+- ✅ **API Endpoints** - GET/POST/PUT/DELETE
+- ✅ **Swagger UI** - Documentazione
+- ✅ **Frontend UI** - Interfaccia utente
+- ✅ **Integrazione** - Comunicazione frontend-backend
+- ✅ **Responsive Design** - Design adattivo
+
+## 📁 Struttura Progetto
+
+```
+Esame_De_Gregorio/
+├── backend/                 # Spring Boot Backend
+│   ├── src/main/java/      # Codice sorgente Java
+│   ├── src/main/resources/ # Configurazioni
+│   └── target/             # Classi compilate
+├── frontend/               # React Frontend
+│   ├── src/               # Codice sorgente React
+│   ├── public/            # Assets statici
+│   └── dist/              # File compilati
+├── database/              # Script database
+├── docs/                  # Documentazione
+├── scripts/               # Script automazione
+├── tests/                 # File di test
+└── docker-compose.yml     # Configurazione Docker
+```
+
+## 🚀 Sviluppo
+
+### Backend
 ```bash
 cd backend
 ./mvnw spring-boot:run
 ```
 
-3. **Frontend development / Sviluppo frontend**
+### Frontend
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
 
-## API Documentation / Documentazione API
-
-### Courses Endpoints / Endpoint Corsi
-
-- `GET /api/courses` - Get all courses
-- `GET /api/courses/{id}` - Get course by ID
-- `GET /api/courses/upcoming` - Get upcoming courses
-
-### Enrollments Endpoints / Endpoint Iscrizioni
-
-- `GET /api/enrollments` - Get all enrollments
-- `GET /api/enrollments/{id}` - Get enrollment by ID
-- `POST /api/enrollments` - Create new enrollment
-- `GET /api/enrollments/course/{courseId}` - Get enrollments by course
-
-### Query Parameters / Parametri Query
-
-- `titolo` - Filter by course title
-- `luogo` - Filter by location
-- `disponibili` - Show only available courses
-- `corsoId` - Filter enrollments by course
-
-## Database Schema / Schema Database
-
-### Tables / Tabelle
-
-**corsi** (courses)
-- `corso_id` (PK) - Course identifier
-- `titolo` - Course title
-- `data_ora_inizio` - Start date and time
-- `luogo` - Location
-- `disponibilita` - Available spots
-
-**iscrizioni** (enrollments)
-- `iscrizione_id` (PK) - Enrollment identifier
-- `corso_id` (FK) - Course reference
-- `partecipante_nome` - Participant first name
-- `partecipante_cognome` - Participant last name
-- `partecipante_email` - Participant email
-- `data_ora_iscrizione` - Enrollment timestamp
-
-## Development Guidelines / Linee Guida Sviluppo
-
-- All code is written in English
-- Comments are bilingual (English/Italian)
-- Follow enterprise-level best practices
-- Use Docker for containerization
-- Implement comprehensive logging
-
-## Testing / Test
-
+### Docker
 ```bash
-# Backend tests / Test backend
-cd backend
-./mvnw test
-
-# Frontend tests / Test frontend
-cd frontend
-npm test
-
-# Integration tests / Test integrazione
 docker-compose up -d
-# Run tests against running containers
 ```
 
-## Deployment / Deploy
+## 📚 Documentazione
 
-The application is containerized and ready for deployment on any Docker-compatible platform.
+- **[System Overview](docs/SYSTEM_OVERVIEW.md)** - Panoramica sistema
+- **[API Documentation](docs/API_DOCUMENTATION.md)** - Documentazione API
+- **[Frontend Guide](docs/FRONTEND_GUIDE.md)** - Guida sviluppo frontend
+- **[Guida Avvio](GUIDA_AVVIO.md)** - Guida dettagliata avvio
 
-L'applicazione è containerizzata e pronta per il deploy su qualsiasi piattaforma compatibile con Docker.
+## 🔧 Configurazione
 
-## License / Licenza
+### Database
+- **H2**: `jdbc:h2:mem:testdb` (Sviluppo)
+- **PostgreSQL**: Configurabile per produzione
 
-MIT License - see LICENSE file for details.
+### CORS
+- Configurato per `localhost:5173` e `localhost:3000`
+- Supporto per sviluppo e produzione
 
-Licenza MIT - vedi file LICENSE per i dettagli.
+## 📈 Performance
+
+- **Caching**: React Query per ottimizzazione
+- **Lazy Loading**: Componenti caricati on-demand
+- **Debounce**: Ricerca ottimizzata
+- **Compression**: Assets compressi
+
+## 🔒 Sicurezza
+
+- **CORS**: Configurazione sicura
+- **Validation**: Input validation completa
+- **Error Handling**: Gestione errori robusta
+- **Sanitization**: Pulizia dati input
+
+## 📊 Monitoraggio
+
+- **Health Check**: `http://localhost:8080/actuator/health`
+- **API Docs**: `http://localhost:8080/swagger-ui.html`
+- **Frontend**: `http://localhost:5173`
+
+---
+
+**Sistema Enterprise-Ready** con architettura scalabile, performance ottimizzate e user experience moderna.
+
+## 📄 Licenza
+
+MIT License

@@ -2,6 +2,7 @@ package com.esame.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -40,7 +41,39 @@ public class Corso {
     @Column(name = "disponibilita", nullable = false)
     private Integer disponibilita;
     
+    // Enhanced course information / Informazioni avanzate del corso
+    @Column(name = "programma", columnDefinition = "TEXT")
+    private String programma;
+    
+    @Column(name = "docenti", length = 200)
+    private String docenti;
+    
+    @Column(name = "informazioni_generali", columnDefinition = "TEXT")
+    private String informazioniGenerali;
+    
+    @Column(name = "data_test")
+    private LocalDateTime dataTest;
+    
+    @Column(name = "data_completamento")
+    private LocalDateTime dataCompletamento;
+    
+    @Column(name = "durata_ore")
+    private Integer durataOre;
+    
+    @Column(name = "livello", length = 20)
+    private String livello;
+    
+    @Column(name = "categoria", length = 50)
+    private String categoria;
+    
+    @Column(name = "prezzo")
+    private Double prezzo;
+    
+    @Column(name = "certificazione")
+    private Boolean certificazione = false;
+    
     @OneToMany(mappedBy = "corso", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Iscrizione> iscrizioni;
     
     // Default constructor / Costruttore di default
@@ -93,6 +126,86 @@ public class Corso {
     
     public void setDisponibilita(Integer disponibilita) {
         this.disponibilita = disponibilita;
+    }
+    
+    public String getProgramma() {
+        return programma;
+    }
+    
+    public void setProgramma(String programma) {
+        this.programma = programma;
+    }
+    
+    public String getDocenti() {
+        return docenti;
+    }
+    
+    public void setDocenti(String docenti) {
+        this.docenti = docenti;
+    }
+    
+    public String getInformazioniGenerali() {
+        return informazioniGenerali;
+    }
+    
+    public void setInformazioniGenerali(String informazioniGenerali) {
+        this.informazioniGenerali = informazioniGenerali;
+    }
+    
+    public LocalDateTime getDataTest() {
+        return dataTest;
+    }
+    
+    public void setDataTest(LocalDateTime dataTest) {
+        this.dataTest = dataTest;
+    }
+    
+    public LocalDateTime getDataCompletamento() {
+        return dataCompletamento;
+    }
+    
+    public void setDataCompletamento(LocalDateTime dataCompletamento) {
+        this.dataCompletamento = dataCompletamento;
+    }
+    
+    public Integer getDurataOre() {
+        return durataOre;
+    }
+    
+    public void setDurataOre(Integer durataOre) {
+        this.durataOre = durataOre;
+    }
+    
+    public String getLivello() {
+        return livello;
+    }
+    
+    public void setLivello(String livello) {
+        this.livello = livello;
+    }
+    
+    public String getCategoria() {
+        return categoria;
+    }
+    
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+    
+    public Double getPrezzo() {
+        return prezzo;
+    }
+    
+    public void setPrezzo(Double prezzo) {
+        this.prezzo = prezzo;
+    }
+    
+    public Boolean getCertificazione() {
+        return certificazione;
+    }
+    
+    public void setCertificazione(Boolean certificazione) {
+        this.certificazione = certificazione;
     }
     
     public List<Iscrizione> getIscrizioni() {
